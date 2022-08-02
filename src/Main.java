@@ -11,6 +11,8 @@ public class Main {
 
     private static int[] amountOfPurchasedProducts = new int[products.length];
 
+    private final static int EACH_ITEM_FREE = 3;
+
     public static void main(String[] args) {
         init();
 
@@ -93,18 +95,37 @@ public class Main {
 
         int sum = 0;
 
+        int newAmount = 0;
+
         for (int i = 0; i < amountOfPurchasedProducts.length; i++) {
             if (amountOfPurchasedProducts[i] > 0) {
-                System.out.println(products[i].title + " " +
-                        amountOfPurchasedProducts[i] + " шт " +
-                        products[i].price + " руб/шт " +
-                        (amountOfPurchasedProducts[i] * products[i].price) +
-                        " руб в сумме");
+                if (amountOfPurchasedProducts[i] < EACH_ITEM_FREE) {
+                    ShowInfo(products[i].title, amountOfPurchasedProducts[i], amountOfPurchasedProducts[i], products[i].price);
 
-                sum += amountOfPurchasedProducts[i] * products[i].price;
+                    sum += amountOfPurchasedProducts[i] * products[i].price;
+                } else {
+                    newAmount = amountOfPurchasedProducts[i] - (amountOfPurchasedProducts[i] / EACH_ITEM_FREE);
+
+                    ShowInfo(products[i].title, amountOfPurchasedProducts[i], newAmount, products[i].price);
+                    sum += newAmount * products[i].price;
+                }
             }
         }
 
         System.out.println("Итого " + sum + " руб");
+    }
+
+    private static void ShowInfo(String title, int amountOfProducts, int accountedGoods, int productPrice){
+        String additionalMessage = "";
+
+        if(accountedGoods < amountOfProducts){
+            additionalMessage = " с учётом скидки 100% за каждый " + EACH_ITEM_FREE + " товар.";
+        }
+
+        System.out.println(title + " " +
+                amountOfProducts + " шт " +
+                productPrice + " руб/шт " +
+                (accountedGoods * productPrice) +
+                " руб в сумме" + additionalMessage);
     }
 }
