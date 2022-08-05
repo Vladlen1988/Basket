@@ -52,14 +52,17 @@ public class Main {
                 try {
                     int productsAmount = Integer.parseInt(strNumbers[1]);
 
-                    if (productsAmount < 0) {
-                        System.out.println("Количество товаров не может быть отрицательным!");
-                        continue;
+                    if (productsAmount == 0) {
+                        amountOfPurchasedProducts[productIndex - 1] = 0;
+                    } else {
+                        amountOfPurchasedProducts[productIndex - 1] += productsAmount;
+                        if (amountOfPurchasedProducts[productIndex - 1] < 0) {
+                            amountOfPurchasedProducts[productIndex - 1] = 0;
+                        }
                     }
 
-                    amountOfPurchasedProducts[productIndex - 1] += productsAmount;
                 } catch (NumberFormatException e) {
-                    System.out.println("При вводе количества товаров используйте только положительные числа," +
+                    System.out.println("При вводе количества товаров используйте только числа," +
                             " не используйте слова!");
                 }
             } catch (NumberFormatException e) {
